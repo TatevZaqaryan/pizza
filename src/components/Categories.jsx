@@ -1,6 +1,4 @@
 function Categories({ value, onClickCategory }) {
-  console.log(value);
-
   const categories = [
     "Все",
     "Мясные",
@@ -21,12 +19,6 @@ function Categories({ value, onClickCategory }) {
             {item}
           </li>
         ))}
-        {/* <li className="active">Все</li>
-        <li>Мясные</li>
-        <li>Вегетарианская</li>
-        <li>Гриль</li>
-        <li>Острые</li>
-        <li>Закрытые</li> */}
       </ul>
     </div>
   );

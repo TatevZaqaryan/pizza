@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 function PizzaBlock({ title, price, imageUrl, sizes, types }) {
   const typesName = ["тонкое", "традиционное"];
@@ -20,6 +20,7 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
           <ul>
             {types.map((i) => (
               <li
+                key={i}
                 onClick={() => onClickIndex(i)}
                 className={active === i ? "active" : ""}
               >
@@ -30,15 +31,13 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
           <ul>
             {sizes.map((i) => (
               <li
+                key={i}
                 onClick={() => onClickIndex(i)}
                 className={active === i ? "active" : ""}
               >
                 {i}
               </li>
             ))}
-            {/* <li className="active">26 см. </li>
-          <li>30 см.</li>
-          <li>40 см.</li> */}
           </ul>
         </div>
         <div className="pizza-block__bottom">
