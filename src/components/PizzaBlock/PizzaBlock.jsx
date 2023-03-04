@@ -1,16 +1,35 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addItem } from "../../redux/slices/cartSlice";
+const typesName = ["тонкое", "традиционное"];
 
-function PizzaBlock({ title, price, imageUrl, sizes, types }) {
-  const typesName = ["тонкое", "традиционное"];
-  const [pizzCount, setPizzCount] = useState(0);
-  const [active, setActive] = useState(0);
+function PizzaBlock({ id, title, price, imageUrl, sizes, types }) {
+  const dispatch = useDispatch();
+  const cartItem = useSelector((state) =>
+    state.cart.items.find((obj) => obj.id === id)
+  );
+  const [activeType, setActiveType] = useState(0);
+  const [activeSize, setActiveSize] = useState(0);
+
+  const addedCount = cartItem ? cartItem.count : 0;
+
+  const onClickAdd = () => {
+    const item = {
+      id,
+      title,
+      price,
+      imageUrl,
+      type: typesName[activeType],
+      size: sizes[activeSize],
+    };
+    dispatch(addItem(item));
+  };
+
   const onClickIndex = (index) => {
-    setActive(index);
+    setActiveType(index);
+    setActiveSize(index);
   };
 
-  const onClick = () => {
-    setPizzCount(pizzCount + 1);
-  };
   return (
     <div className="pizza-lock-wrapper">
       <div className="pizza-block">
@@ -22,7 +41,7 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
               <li
                 key={i}
                 onClick={() => onClickIndex(i)}
-                className={active === i ? "active" : ""}
+                className={activeType === i ? "active" : ""}
               >
                 {typesName[i]}
               </li>
@@ -33,7 +52,7 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
               <li
                 key={i}
                 onClick={() => onClickIndex(i)}
-                className={active === i ? "active" : ""}
+                className={activeSize === i ? "active" : ""}
               >
                 {i}
               </li>
@@ -43,7 +62,7 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
         <div className="pizza-block__bottom">
           <div className="pizza-block__price">от{price} ₽</div>
           <button
-            onClick={onClick}
+            onClick={onClickAdd}
             className="button button--outline button--add"
           >
             <svg
@@ -59,7 +78,7 @@ function PizzaBlock({ title, price, imageUrl, sizes, types }) {
               />
             </svg>
             <span>Добавить</span>
-            <i>{pizzCount}</i>
+            {addedCount > 0 && <i>{addedCount}</i>}
           </button>
         </div>
       </div>
